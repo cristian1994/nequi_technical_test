@@ -25,7 +25,7 @@ public class FranchiseController {
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<FranchiseResponseDTO>> create(@Valid @RequestBody FranchiseRequestDTO franchiseRequest, @RequestParam("id") Long id) {
+    public Mono<ResponseEntity<FranchiseResponseDTO>> create(@Valid @RequestBody FranchiseRequestDTO franchiseRequest, @PathVariable("id") Long id) {
         return service.updateFranchise(id, franchiseRequest)
                 .map(ResponseEntity::ok);
     }

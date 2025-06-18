@@ -24,7 +24,7 @@ public class HeadquarterController {
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<HeadquarterResponseDTO>> create(@Valid @RequestBody HeadquarterRequestDTO headquarterRequest, @RequestParam("id") Long id) {
+    public Mono<ResponseEntity<HeadquarterResponseDTO>> update(@Valid @RequestBody HeadquarterRequestDTO headquarterRequest, @PathVariable("id") Long id) {
         return headquarterService.updateHeadquarter(id, headquarterRequest)
                 .map(ResponseEntity::ok);
     }

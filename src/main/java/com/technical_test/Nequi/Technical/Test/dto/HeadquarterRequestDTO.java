@@ -1,12 +1,12 @@
 package com.technical_test.Nequi.Technical.Test.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 
 public class HeadquarterRequestDTO {
-    @NotNull(message = "{franchise.name.blank}")
+    @NotBlank(message = "{franchise.name.blank}")
     private String name;
 
-    @NotNull(message = "{franchise.id.notValid}")
+    @NotBlank(message = "{franchise.id.notValid}")
     private Long franchiseId;
 
     public HeadquarterRequestDTO() {
