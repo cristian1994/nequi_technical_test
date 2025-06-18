@@ -2,11 +2,14 @@ package com.technical_test.Nequi.Technical.Test.service;
 
 import com.technical_test.Nequi.Technical.Test.dto.HeadquarterRequestDTO;
 import com.technical_test.Nequi.Technical.Test.dto.HeadquarterResponseDTO;
+import com.technical_test.Nequi.Technical.Test.dto.ProductResponseDTO;
+import com.technical_test.Nequi.Technical.Test.model.Franchise;
 import com.technical_test.Nequi.Technical.Test.model.Headquarter;
 import com.technical_test.Nequi.Technical.Test.repository.HeadquarterRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -31,11 +34,7 @@ public class HeadquarterService {
     }
 
     public Mono<HeadquarterResponseDTO> updateHeadquarter(Long id, HeadquarterRequestDTO headquarterRequest) {
-        return headquarterRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ResponseStatusException(
-                        HttpStatus.BAD_REQUEST,
-                        messageService.getMessage("headquarter.id.notValid")
-                )))
+        return validateById(id)
                 .flatMap(headquarter -> franchiseService.validateById(headquarterRequest.getFranchiseId())
                         .flatMap(franchise -> {
                             headquarter.setName(headquarterRequest.getName());
@@ -43,5 +42,10 @@ public class HeadquarterService {
                             return headquarterRepository.save(headquarter);
                         }))
                 .map(updated -> new HeadquarterResponseDTO(updated.getId(), updated.getName()));
+    }
+
+    public Mono<Headquarter> validateById(Long id) {
+        return headquarterRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, messageService.getMessage("headquarters.id.notValid"))));
     }
 }

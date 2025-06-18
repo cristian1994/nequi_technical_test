@@ -36,6 +36,6 @@ public class FranchiseService {
 
     public Mono<Franchise> validateById(Long id) {
         return franchiseRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, messageService.getMessage("{franchise.id.notValid}"))));
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, messageService.getMessage("franchise.id.notValid"))));
     }
 }
